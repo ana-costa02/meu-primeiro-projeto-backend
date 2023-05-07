@@ -1,0 +1,64 @@
+BACKEND 1
+
+
+- npm init -y
+
+-npm install express
+
+- Regras para escrever constantes: 
+ Deve começar com letra, $ ou _
+É possível usar também números e acentos
+
+Não pode começar com número, conter espaço, ser palavras reservadas da linguagem javascript (identificadores com significados especiais definidos por quem inventou a linguagem). 
+
+https://www.w3bai.com/pt/js/js_reserved.html#gsc.tab=0
+
+
+Dicas para dar bons nomes:
+case sensitive - diferencia letras maiúsculas de minúsculas.
+Nomes coerentes que realmente possuem identificação com o valor que irá guardar.
+
+
+- Como declarar uma função
+Usar a palavra reservada function
+podemos dar um identificador
+não esquecer de usar parenteses
+dentro das chaves colocamos instruções
+
+
+- Nomeando uma função
+O identificador pode ser qualquer um, porém é super importante usar verbos e descrever o que ela faz.
+Não se preocupe com identificadores grandes, desde que sejam descritivos suficientes
+usar o padrão camelCase. 
+
+- Pilares do Pensamento Computacional
+dividir em etapas menores, nomear conceitos, identificar padrões e criar um passo-a-passo
+
+é o conjunto de conceitos que pode nos ajudar a desenvolver um pensamento lógico 
+
+	- Decomposição: dividir o problema em partes menores;
+	- Padrão: reconhecer padrões nas informações;
+	- Abstração: nomear conceitos;
+	- Algorítmos: criar um passo a passo lógico para resolver problema. 
+
+
+Algorítmos: é apenas uma sequência finita de passos que se usa para resovler um problema e algorítmos são muito mais amplos e muito mais antigos do que um computador (Algoritmos para viver, a ciência exata das decisões)
+
+Sequência para resolver uma operação simples de matemática
+
+1. identificar qual o tipo de operação: soma
+2. começar com os digitos de trás e se o valor passar de 10, precisamos levar o número remanescente pra compelmentar a soma;
+3. realizar a operação e ter o resultado.
+
+passo 1 - some dois dígitos de trás
+passo 2 - se o valor for menor que 10, a soma desses dígitos é o dígito da parte de trás do resultado
+se o valor for igual ou maior que 10, por exemplo, 12, o 2 fica a parte de trás do resultado e o 1 vai ser somado na próxima coluna de dígitos. 
+passo 3 - continue da direita pra esquerda até encontrar o resultado final
+
+
+-GET
+é um dos verbos do HTTP, ele serve dados quando digitamos algum endereço na barra do navegador
+
+
+
+
