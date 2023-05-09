@@ -1,8 +1,9 @@
-const express = require("express")
-const router = express.Router()
+const express = require("express") //iniciando o express
+const router = express.Router() // configurando a primeira parte da rota
 
-const app = express()
-const porta = 3333
+const app = express() // iniciando o app
+const porta = 3333 //criando a porta
+
 
 function mostraMulher (request, response) {
     response.json({

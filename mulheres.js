@@ -1,35 +1,102 @@
-const express = require("express")
-const router = express.Router()
+const express = require("express") //iniciando o express
+const router = express.Router() // configurando a primeira parte da rota
+//const { v4: uuidv4 } = require('uuid')
+const cors = require('cors') //trazendo o pacote cors - que permite consumir essa API no front-end
 
-const app = express()
-const porta = 3333
+const conectaBancoDeDados = require('./bancoDeDados') //ligando o arquivo banco de dados
+conectaBancoDeDados() //chamando a função que conecta o banco de dados
 
-const mulheres = [
-    {nome: 'Ana Costa',
-    imagem: 'https://www.linkedin.com/in/ana-carolina-da-costa-a615b6203/',
-    minibio: 'Estudante de Desenvolvimento de Software Multiplataforma'
-},
+const Mulher = require('./mulherModel')
 
-{    nome: 'Iana Chan',
-    imagem: 'https://media.licdn.com/dms/image/C4D03AQE-aD7nj2W_0Q/profile-displayphoto-shrink_800_800/0/1563383651406?e=1689206400&v=beta&t=wZVYrw2K863LRkrEiaTPKvcFMNDCAvbiDNZCNFe_odo',
-    minibio: 'Fundadora Programaria'
-},
+const app = express() // iniciando o app
+app.use(express.json())
+app.use(cors())
+const porta = 3333 //criando a porta
 
-{
-    nome: 'Nina da Hora',
-    imagem: 'https://media.licdn.com/dms/image/D4D03AQFfEO5sNww0sA/profile-displayphoto-shrink_800_800/0/1679701313082?e=1689206400&v=beta&t=mqwliGvn8u18M9IvX1Ku2q4idhP29b2yUQCZcMatA0c',
-    minibio: 'Hacker Antirracista'
+// excluiu a lista inicial de mulheres, pois agora há banco de dados 
+
+//GET
+async function mostraMulheres(request, response) {
+    try {
+        const mulheresVindasDoBancoDeDados = await Mulher.find()
+
+        response.json(mulheresVindasDoBancoDeDados)
+    } catch (erro) {
+        console.log(erro)
+    }
 }
-]
 
-function mostraMulheres(request, response) {
-    response.json(mulheres)
+//POST
+async function criaMulher(request, response){
+    const novaMulher = new Mulher({
+        //apagou o id
+        nome: request.body.nome,
+        imagem: request.body.imagem,
+        minibio: request.body.minibio,
+        citacao: request.body.citacao
+    })
+    
+    try {
+        const mulherCriada = await novaMulher.save()
+        response.status(201).json(mulherCriada)
+    } catch (erro) {
+        console.log(erro)
+    }
+
 }
 
+//PATCH
+async function corrigeMulher(request, response) {
+    try {
+        const mulherEncontrada = await Mulher.findById(request.parrams.id)
+        
+
+    if (request.body.nome) {
+        mulherEncontrada.nome = request.body.nome
+    }
+
+    if (request.body.imagem) {
+        mulherEncontrada.imagem = request.body.imagem
+    }
+
+    if (request.body.minibio) {
+        mulherEncontrada.minibio = request.body.minibio
+    }
+
+    if (request.body.citacao) {
+        mulherEncontrada = request.body.citacao
+    }
+
+    } catch (erro) {
+        console.log(erro)
+    }
+
+    const mulherAtualizadaNoBancoDeDados = await mulherEncontrada.save()
+    response.json(mulherAtualizadaNoBancoDeDados)
+}
+
+//DELETE
+async function deletaMulher(request, response) {
+    try {
+        await Mulher.findByIdAndDelete(request.params.id)
+        response.json({mensagem: 'Mulher deletada com sucesso!'})
+
+    } catch (erro) {
+        console.log(erro)
+    }
+
+
+}
+
+
+//PORTA
 function mostraPorta() {
     console.log("Servidor criado e rodando na porta", porta)
 }
 
-
-app.use(router.get('/mulheres', mostraMulheres))
-app.listen(porta, mostraPorta)
+//configurações do app
+app.use(router.get('/mulheres', mostraMulheres)) //configuração rota GET /mulheres
+app.use(router.post('/mulheres', criaMulher)) //configura rota POST /mulheres
+app.use(router.patch('/mulheres/:id', corrigeMulher)) //configura a rota patch/mulheres/:id
+app.use(router.delete('/mulheres/:id', deletaMulher)) //configura rota delete /mulheres
+app.listen(porta, mostraPorta) //servidor ouvindo a porta
